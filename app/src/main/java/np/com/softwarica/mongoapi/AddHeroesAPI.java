@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,21 +43,51 @@ public class AddHeroesAPI extends AppCompatActivity {
         String name = etName.getText().toString();
         String desc = etDescription.getText().toString();
 
-        Hero hero = new Hero(name,desc,name + ".jpg" );
-        MyRetrofit.getAPI().addHero(hero).enqueue(new Callback<Void>() {
+        Map<String,String> map = new HashMap<>();
+        map.put("name",name);
+        map.put("desc",desc);
+
+        Call<Void> heroesCall = MyRetrofit.getAPI().addHero(map);
+
+
+        Hero hero = new Hero(name, desc, name + ".jpg");
+
+ //       Call<Void> heroesCall = MyRetrofit.getAPI().addHero(name, desc);
+
+        heroesCall.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (!response.isSuccessful()){
-                    Toast.makeText(AddHeroesAPI.this,"Code" + response.code(), Toast.LENGTH_LONG).show();
+
+                if (!response.isSuccessful()) {
+                    Toast.makeText(AddHeroesAPI.this, "Code" + response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                Toast.makeText(AddHeroesAPI.this,"Successfully Added", Toast.LENGTH_LONG).show();
+                Toast.makeText(AddHeroesAPI.this, "Successfully Added", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(AddHeroesAPI.this,"Error" + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddHeroesAPI.this, "Error" + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+        MyRetrofit.getAPI().addHero(hero).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(AddHeroesAPI.this, "Code" + response.code(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(AddHeroesAPI.this, "Successfully Added", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(AddHeroesAPI.this, "Error" + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
