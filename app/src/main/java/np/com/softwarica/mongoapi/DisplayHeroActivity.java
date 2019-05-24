@@ -33,7 +33,7 @@ public class DisplayHeroActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        Url.getInstance().create(HeroAPI.class).getHeroes().enqueue(new Callback<ArrayList<Hero>>() {
+        Url.getInstance().create(HeroAPI.class).getHeroes(Url.Cookie).enqueue(new Callback<ArrayList<Hero>>() {
             @Override
             public void onResponse(Call<ArrayList<Hero>> call, Response<ArrayList<Hero>> response) {
                 if (response.isSuccessful()) {

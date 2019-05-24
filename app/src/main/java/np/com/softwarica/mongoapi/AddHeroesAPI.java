@@ -84,7 +84,7 @@ String imageName;
         map.put("image",imageName);
 
         HeroAPI heroAPI = Url.getInstance().create(HeroAPI.class);
-        Call<Void> heroesCall = MyRetrofit.getAPI().addHero(map);
+        Call<Void> heroesCall = MyRetrofit.getAPI().addHero(Url.Cookie,map);
 
 
         Hero hero = new Hero(name, desc, name + ".jpg");
@@ -111,7 +111,7 @@ String imageName;
         });
 
 
-        MyRetrofit.getAPI().addHero(hero).enqueue(new Callback<Void>() {
+        MyRetrofit.getAPI().addHero(Url.Cookie,hero).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()) {
@@ -181,7 +181,7 @@ String imageName;
         MultipartBody.Part body = MultipartBody.Part.createFormData("imageFile",file.getName(),requestBody);
 
         HeroAPI heroAPI = Url.getInstance().create(HeroAPI.class);
-        Call<ImageResponse> responseBodyCall = heroAPI.uploadImage(body);
+        Call<ImageResponse> responseBodyCall = heroAPI.uploadImage(Url.Cookie,body);
 
         StrictMode();
 
